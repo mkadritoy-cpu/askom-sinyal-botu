@@ -10,23 +10,24 @@ TELEGRAM_URL = f"https://api.telegram.org/bot{TOKEN}/sendMessage"
 @app.route('/', methods=['POST'])
 def webhook():
     data = request.get_json()
+    print("🔵 Gelen veri:", data)
 
-    # Mesaj var mı kontrolü
     if 'message' in data:
         chat_id = data['message']['chat']['id']
         text = data['message'].get('text', '')
 
-        # Yanıt oluştur
-        if "aşkom" in text.lower():
-            reply = "Buradayım, emrindeyim 🫡💘"
-        else:
-            reply = "Bana 'aşkom' diye seslen 🥹"
+        print("🟡 Chat ID:", chat_id)
+        print("🟡 Text:", text)
 
-        # Cevap gönder
+        # Yanıt mesajı
+        reply = "Bot çalışıyor aşkom 💖"
+
         payload = {
             "chat_id": chat_id,
             "text": reply
         }
-        requests.post(TELEGRAM_URL, json=payload)
+
+        response = requests.post(TELEGRAM_URL, json=payload)
+        print("🟢 Telegram yanıtı:", response.status_code, response.text)
 
     return jsonify({"ok": True})
