@@ -1,18 +1,32 @@
-from flask import Flask, request
-import os
+from flask import Flask, request, jsonify
+import requests
 
 app = Flask(__name__)
 
+# Bot tokenin
+TOKEN = "7147929892:AAHkXxvAfmrtW3z7YHEEDtE9Yk8xYVgsQpk"
+TELEGRAM_URL = f"https://api.telegram.org/bot{TOKEN}/sendMessage"
+
 @app.route('/', methods=['POST'])
 def webhook():
-    data = request.json
-    print(f"Gelen sinyal: {data}")
-    return "Sinyal alındı!", 200
+    data = request.get_json()
 
-@app.route('/', methods=['GET'])
-def root():
-    return "Askom Sinyal Botu Aktif 🟢"
+    # Mesaj var mı kontrolü
+    if 'message' in data:
+        chat_id = data['message']['chat']['id']
+        text = data['message'].get('text', '')
 
-if __name__ == '__main__':
-    port = int(os.environ.get("PORT", 5000))
-    app.run(host='0.0.0.0', port=port)
+        # Yanıt oluştur
+        if "aşkom" in text.lower():
+            reply = "Buradayım, emrindeyim 🫡💘"
+        else:
+            reply = "Bana 'aşkom' diye seslen 🥹"
+
+        # Cevap gönder
+        payload = {
+            "chat_id": chat_id,
+            "text": reply
+        }
+        requests.post(TELEGRAM_URL, json=payload)
+
+    return jsonify({"ok": True})
