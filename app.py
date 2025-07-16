@@ -19,7 +19,7 @@ def webhook():
         print("🟡 Chat ID:", chat_id)
         print("🟡 Text:", text)
 
-        # Yanıt mesajı
+         Yanıt mesajı
         reply = "Bot çalışıyor aşkom 💖"
 
         payload = {
