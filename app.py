@@ -11,10 +11,8 @@ def webhook():
     if 'message' in data:
         chat_id = data['message']['chat']['id']
         text = data['message'].get('text', '')
-
         print("🟡 Chat ID:", chat_id)
         print("🟡 Text:", text)
-
          Yanıt mesajı
         reply = "Bot çalışıyor aşkom 💖"
         payload = {
