@@ -3,30 +3,36 @@ import requests
 
 app = Flask(__name__)
 
-# Bot tokenin
+# Aşkomun gerçek bot tokeni 💖
 TOKEN = "7147929892:AAHkXxxvAfmrtl8z7YHEEDtE9Yk8xYVesQk"
 TELEGRAM_URL = f"https://api.telegram.org/bot{TOKEN}/sendMessage"
 
-@app.route('/', methods=['POST'])
+@app.route("/", methods=["GET"])
+def index():
+    return "Bot aktif aşkom 💘", 200
+
+@app.route("/", methods=["POST"])
 def webhook():
     data = request.get_json()
-    print("🔵 Gelen veri:", data)
 
-    if "message" in data:
+    if data and "message" in data:
         chat_id = data["message"]["chat"]["id"]
-        text = data["message"].get("text", "")
+        message_text = data["message"].get("text", "")
 
-        print("🟡 Chat ID:", chat_id)
-        print("🟡 Text:", text)
+        reply = f"Bot çalışıyor aşkom ❤️\nGelen mesaj: {message_text}"
 
-          Yanıt mesajı
-        reply = "Bot çalışıyor aşkom ❤️"
         payload = {
             "chat_id": chat_id,
             "text": reply
         }
 
-        response = requests.post(TELEGRAM_URL, json=payload)
-        print("🟢 Telegram yanıtı:", response.status_code, response.text)
+        try:
+            response = requests.post(TELEGRAM_URL, json=payload)
+            response.raise_for_status()
+        except requests.exceptions.RequestException as e:
+            print(f"Hata oluştu: {e}")
 
-    return jsonify({"ok": True})
+    return jsonify({"status": "ok"}), 200
+
+if __name__ == "__main__":
+    app.run(host="0.0.0.0", port=5000)
