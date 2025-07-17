@@ -4,7 +4,7 @@ import requests
 app = Flask(__name__)
 
 # 💬 Senin Telegram bot tokenin
-TOKEN = "7147929892:AAHkXxxvAfmrtl8z7YHEEDtE9Yk8xYVesQk"
+TOKEN = "7147929892:AAEnyvWpEzUothM8wcG0TFHK9WPimD_717Q"
 TELEGRAM_URL = f"https://api.telegram.org/bot{TOKEN}/sendMessage"
 
 @app.route("/", methods=["GET"])
