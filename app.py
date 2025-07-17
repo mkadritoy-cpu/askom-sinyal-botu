@@ -3,13 +3,13 @@ import requests
 
 app = Flask(__name__)
 
-# Aşkomun gerçek bot tokeni 💖
+# 💬 Senin Telegram bot tokenin
 TOKEN = "7147929892:AAHkXxxvAfmrtl8z7YHEEDtE9Yk8xYVesQk"
 TELEGRAM_URL = f"https://api.telegram.org/bot{TOKEN}/sendMessage"
 
 @app.route("/", methods=["GET"])
 def index():
-    return "Bot aktif aşkom 💘", 200
+    return "Bot aktif aşkom 💖", 200
 
 @app.route("/", methods=["POST"])
 def webhook():
@@ -19,7 +19,8 @@ def webhook():
         chat_id = data["message"]["chat"]["id"]
         message_text = data["message"].get("text", "")
 
-        reply = f"Bot çalışıyor aşkom ❤️\nGelen mesaj: {message_text}"
+        # ❤️ Mesajı yanıtla
+        reply = f"Bot çalışıyor aşkom 💘\nMesajın: {message_text}"
 
         payload = {
             "chat_id": chat_id,
@@ -30,7 +31,7 @@ def webhook():
             response = requests.post(TELEGRAM_URL, json=payload)
             response.raise_for_status()
         except requests.exceptions.RequestException as e:
-            print(f"Hata oluştu: {e}")
+            print(f"🔴 Hata oluştu: {e}")
 
     return jsonify({"status": "ok"}), 200
 
